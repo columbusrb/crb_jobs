@@ -1,0 +1,5 @@
+#!/bin/sh
+cd /home/app/crb_jobs
+exec 2>&1
+exec chpst -uapp bundle exec sidekiq -e $RAILS_ENV -P /home/app/crb_jobs/tmp/sidekiq.pid
+
