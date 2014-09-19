@@ -26,8 +26,6 @@ docker run --name=redis -d -v /opt/redis/data:/data dockerfile/redis
 
 5. Set some environmental variables:
 ```
-export ES_IP=$(docker inspect elasticsearch | grep IPAddres | awk -F'"' '{print $4}')
-export REDIS_IP=$(docker inspect redis | grep IPAddres | awk -F'"' '{print $4}')
 export PG_IP=$(docker inspect postgres | grep IPAddres | awk -F'"' '{print $4}')
 ```
 
@@ -39,8 +37,6 @@ docker run -t -i --rm -v /opt/crb_jobs/log:/home/app/crb_jobs/log \
            --link redis:redis \
            --link elasticsearch:elasticsearch \
            -e RAILS_ENV=production \
-           -e ELASTICSEARCH_URL=http://$ES_IP:9200 \
-           -e REDIS_URL=redis://$REDIS_IP \
            -e DATABASE_URL=postgres://postgres@$PG_IP:5432/crb_jobs_production \
             columbusrb/crb_jobs:latest \
             rake db:create db:migrate
@@ -56,8 +52,6 @@ docker run --name=rails -d -v /opt/crb_jobs/log:/home/app/crb_jobs/log \
            --link redis:redis \
            --link elasticsearch:elasticsearch \
            -e RAILS_ENV=production \
-           -e ELASTICSEARCH_URL=http://$ES_IP:9200 \
-           -e REDIS_URL=redis://$REDIS_IP \
            -e DATABASE_URL=postgres://postgres@$PG_IP:5432/crb_jobs_production \
             columbusrb/crb_jobs:latest
 ```
@@ -69,8 +63,6 @@ Run update.sh on the server or just do the stuff below:
 Just like you did before. Run the migrations first, pull the new container, stop the old one, then start the new one. 
 
 ```
-export ES_IP=$(docker inspect elasticsearch | grep IPAddres | awk -F'"' '{print $4}')
-export REDIS_IP=$(docker inspect redis | grep IPAddres | awk -F'"' '{print $4}')
 export PG_IP=$(docker inspect postgres | grep IPAddres | awk -F'"' '{print $4}')
 
 docker run -t -i --rm -v /opt/crb_jobs/log:/home/app/crb_jobs/log \
@@ -78,8 +70,6 @@ docker run -t -i --rm -v /opt/crb_jobs/log:/home/app/crb_jobs/log \
            --link redis:redis \
            --link elasticsearch:elasticsearch \
            -e RAILS_ENV=production \
-           -e ELASTICSEARCH_URL=http://$ES_IP:9200 \
-           -e REDIS_URL=redis://$REDIS_IP \
            -e DATABASE_URL=postgres://postgres@$PG_IP:5432/crb_jobs_production \
             columbusrb/crb_jobs:latest \
             rake db:create db:migrate
@@ -94,8 +84,6 @@ docker run --name=rails -d -v /opt/crb_jobs/log:/home/app/crb_jobs/log \
            --link redis:redis \
            --link elasticsearch:elasticsearch \
            -e RAILS_ENV=production \
-           -e ELASTICSEARCH_URL=http://$ES_IP:9200 \
-           -e REDIS_URL=redis://$REDIS_IP \
            -e DATABASE_URL=postgres://postgres@$PG_IP:5432/crb_jobs_production \
             columbusrb/crb_jobs:latest
 
